@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maquinaria Mx venta y renta</title>
+    <meta name="description" content="Impulsa tu negocio" />
+    <meta name="author" content="Lovable" />
+
+    <meta property="og:title" content="Maquinaria Mx venta y renta" />
+    <meta property="og:description" content="Impulsa tu negocio" />
+    <meta property="og:type" content="website" />
+    
+<style>
+      #lovable-badge {
+        display: none !important;
+      }
+    </style>
+    <script>
+      const interval = setInterval(() => {
+        const badge = document.getElementById('lovable-badge');
+        if (badge) {
+          badge.remove();
+          clearInterval(interval);
+        }
+      }, 10);
+    </script>
+   
+  </head>
+
+   <script type="module" src="/src/main.tsx"></script>
+    <script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const badge = document.getElementById('lovable-badge');
+    if (badge) badge.remove();
+  });
+</script>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
