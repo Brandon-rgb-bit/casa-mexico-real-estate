@@ -67,9 +67,9 @@ const Index = () => {
       {/* Hero Section */}
       <div className="relative bg-gradient-to-r from-blue-600 to-green-600 text-white py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
-          <h1 className="text-5xl font-bold mb-6">Maquinaria MX</h1>
+          <h1 className="text-5xl font-bold mb-6">Inmuebles MX</h1>
           <p className="text-xl mb-8">
-            La plataforma líder para compra y renta de maquinaria pesada en México
+            La plataforma líder para compra, venta y renta de inmuebles en México
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-2xl mx-auto">
             {/* Nuevo filtro de búsqueda por ID */}
@@ -87,7 +87,7 @@ const Index = () => {
             <div className="relative flex-1 w-full">
               <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
               <Input
-                placeholder="Buscar maquinaria, excavadora, grúa..."
+                placeholder="Buscar Casa, Departamento, Oficina, etc..."
                 value={busqueda}
                 onChange={(e) => setBusqueda(e.target.value)}
                 className="pl-10 py-3 text-lg"
@@ -146,7 +146,7 @@ const Index = () => {
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
-            Maquinaria Destacada
+            Inmuebles Destacados
           </h2>
           <Link to="/listado">
             <Button variant="outline">Ver Todo</Button>
@@ -158,7 +158,7 @@ const Index = () => {
               Espacio destacado disponible
             </div>
             <div className="text-lg mb-6 text-gray-700 dark:text-gray-300 max-w-md mx-auto text-center">
-              ¿Quieres que tu maquinaria aparezca aquí? 
+              ¿Quieres que tu inmueble aparezca aquí? 
               <br />
               <span className="font-semibold">Contácta al administrador</span> por WhatsApp para información sobre espacios destacados.
             </div>
@@ -189,7 +189,7 @@ const Index = () => {
         <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-16">
           <div className="max-w-4xl mx-auto px-6 text-center">
             <h3 className="text-3xl font-bold mb-4">
-              ¿Tienes maquinaria para vender o rentar?
+              ¿Tienes inmuebles para vender o rentar?
             </h3>
             <p className="text-xl mb-8">
               Únete a miles de anunciantes y llega a más clientes
@@ -210,10 +210,10 @@ const Index = () => {
             {/* Columna 1 - Logo y descripción */}
             <div className="col-span-1 md:col-span-2">
               {/* Logo y título */}
-              <h3 className="text-2xl font-bold mb-4">Maquinaria MX</h3>
+              <h3 className="text-2xl font-bold mb-4">Inmuebles MX</h3>
               {/* Descripción de la empresa */}
               <p className="text-gray-300 mb-4">
-                La plataforma líder para compra y renta de maquinaria pesada en México. 
+                La plataforma líder para compra venta y renta de inmuebles en México. 
                 Conectamos vendedores y compradores de manera segura y eficiente.
               </p>
               {/* Redes sociales - Descomenta y edita los enlaces */}
@@ -247,7 +247,7 @@ const Index = () => {
                 </li>
                 <li>
                   <Link to="/listado" className="text-gray-300 hover:text-white transition-colors">
-                    Ver Maquinaria
+                    Ver Inmuebles
                   </Link>
                 </li>
                 <li>
@@ -297,7 +297,7 @@ const Index = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-300 text-sm">
               {/* Edita el año y nombre de la empresa */}
-              © 2024 Maquinaria MX. Todos los derechos reservados.
+              © 2024 Inmuebles MX. Todos los derechos reservados.
             </div>
             <div className="flex space-x-4 mt-4 md:mt-0">
               {/* Descomenta y edita los enlaces legales según necesites */}

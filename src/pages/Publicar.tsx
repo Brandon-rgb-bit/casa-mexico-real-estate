@@ -245,7 +245,7 @@ const PublicarPage = () => {
     }
 
     if (!values.condicion.trim()) {
-      toast.error("Debes seleccionar la condición de la maquinaria");
+      toast.error("Debes seleccionar la condición del inmueble");
       return;
     }
 
@@ -320,7 +320,7 @@ const PublicarPage = () => {
   return (
     <div className="max-w-xl mx-auto mt-8 p-6 rounded shadow bg-white dark:bg-background transition-colors">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-bold">Publicar Maquinaria</h1>
+        <h1 className="text-xl font-bold">Publicar inmuebles
         <span className="text-sm text-gray-600 dark:text-gray-300">
           {publicacionesCount}/{limite} publicaciones
         </span>
@@ -353,7 +353,7 @@ const PublicarPage = () => {
                     rows={3} 
                     {...field} 
                     maxLength={400} 
-                    placeholder="Describe tu maquinaria..."
+                    placeholder="Describe tu inmueble."
                   />
                 </FormControl>
                 <FormMessage />
