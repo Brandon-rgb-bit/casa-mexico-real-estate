@@ -11,14 +11,20 @@ export type Database = {
     Tables: {
       categorias: {
         Row: {
+          created_at: string | null
+          descripcion: string | null
           id: number
           nombre: string
         }
         Insert: {
+          created_at?: string | null
+          descripcion?: string | null
           id?: number
           nombre: string
         }
         Update: {
+          created_at?: string | null
+          descripcion?: string | null
           id?: number
           nombre?: string
         }
@@ -26,28 +32,28 @@ export type Database = {
       }
       destacados: {
         Row: {
-          fecha_destacada: string | null
-          id: number
-          is_active: boolean
-          publicacion_id: string
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          publicacion_id: string | null
         }
         Insert: {
-          fecha_destacada?: string | null
-          id?: number
-          is_active?: boolean
-          publicacion_id: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          publicacion_id?: string | null
         }
         Update: {
-          fecha_destacada?: string | null
-          id?: number
-          is_active?: boolean
-          publicacion_id?: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          publicacion_id?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "destacados_publicacion_id_fkey"
             columns: ["publicacion_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "publicaciones"
             referencedColumns: ["id"]
           },
@@ -55,14 +61,20 @@ export type Database = {
       }
       estados: {
         Row: {
+          codigo: string
+          created_at: string | null
           id: number
           nombre: string
         }
         Insert: {
+          codigo: string
+          created_at?: string | null
           id?: number
           nombre: string
         }
         Update: {
+          codigo?: string
+          created_at?: string | null
           id?: number
           nombre?: string
         }
@@ -70,51 +82,46 @@ export type Database = {
       }
       limites: {
         Row: {
-          email: string | null
-          id: number
-          limite: number | null
-          motivo: string | null
-          user_id: string | null
+          created_at: string | null
+          id: string
+          limite: number
+          user_id: string
           vigencia_hasta: string | null
         }
         Insert: {
-          email?: string | null
-          id?: number
-          limite?: number | null
-          motivo?: string | null
-          user_id?: string | null
+          created_at?: string | null
+          id?: string
+          limite?: number
+          user_id: string
           vigencia_hasta?: string | null
         }
         Update: {
-          email?: string | null
-          id?: number
-          limite?: number | null
-          motivo?: string | null
-          user_id?: string | null
+          created_at?: string | null
+          id?: string
+          limite?: number
+          user_id?: string
           vigencia_hasta?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "limites_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       municipios: {
         Row: {
+          codigo: string | null
+          created_at: string | null
           estado_id: number | null
           id: number
           nombre: string
         }
         Insert: {
+          codigo?: string | null
+          created_at?: string | null
           estado_id?: number | null
           id?: number
           nombre: string
         }
         Update: {
+          codigo?: string | null
+          created_at?: string | null
           estado_id?: number | null
           id?: number
           nombre?: string
@@ -129,12 +136,152 @@ export type Database = {
           },
         ]
       }
+      profiles: {
+        Row: {
+          apellidos: string | null
+          created_at: string
+          email: string
+          id: string
+          nombre: string
+          telefono: string | null
+          tipo_usuario: string
+          updated_at: string
+        }
+        Insert: {
+          apellidos?: string | null
+          created_at?: string
+          email: string
+          id: string
+          nombre: string
+          telefono?: string | null
+          tipo_usuario: string
+          updated_at?: string
+        }
+        Update: {
+          apellidos?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          nombre?: string
+          telefono?: string | null
+          tipo_usuario?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      propiedades: {
+        Row: {
+          antiguedad: number | null
+          aprobada: boolean | null
+          baños: number | null
+          caracteristicas: string[] | null
+          codigo_postal: string | null
+          colonia: string | null
+          created_at: string | null
+          descripcion: string | null
+          destacada: boolean | null
+          direccion_completa: string | null
+          estado_id: number | null
+          habitaciones: number | null
+          id: string
+          imagenes: string[] | null
+          m2_construccion: number | null
+          m2_terreno: number | null
+          municipio_id: number | null
+          precio: number
+          servicios: string[] | null
+          telefono: string | null
+          tipo_operacion: string
+          tipo_propiedad_id: number | null
+          titulo: string
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          antiguedad?: number | null
+          aprobada?: boolean | null
+          baños?: number | null
+          caracteristicas?: string[] | null
+          codigo_postal?: string | null
+          colonia?: string | null
+          created_at?: string | null
+          descripcion?: string | null
+          destacada?: boolean | null
+          direccion_completa?: string | null
+          estado_id?: number | null
+          habitaciones?: number | null
+          id?: string
+          imagenes?: string[] | null
+          m2_construccion?: number | null
+          m2_terreno?: number | null
+          municipio_id?: number | null
+          precio: number
+          servicios?: string[] | null
+          telefono?: string | null
+          tipo_operacion: string
+          tipo_propiedad_id?: number | null
+          titulo: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          antiguedad?: number | null
+          aprobada?: boolean | null
+          baños?: number | null
+          caracteristicas?: string[] | null
+          codigo_postal?: string | null
+          colonia?: string | null
+          created_at?: string | null
+          descripcion?: string | null
+          destacada?: boolean | null
+          direccion_completa?: string | null
+          estado_id?: number | null
+          habitaciones?: number | null
+          id?: string
+          imagenes?: string[] | null
+          m2_construccion?: number | null
+          m2_terreno?: number | null
+          municipio_id?: number | null
+          precio?: number
+          servicios?: string[] | null
+          telefono?: string | null
+          tipo_operacion?: string
+          tipo_propiedad_id?: number | null
+          titulo?: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "propiedades_estado_id_fkey"
+            columns: ["estado_id"]
+            isOneToOne: false
+            referencedRelation: "estados"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "propiedades_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: false
+            referencedRelation: "municipios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "propiedades_tipo_propiedad_id_fkey"
+            columns: ["tipo_propiedad_id"]
+            isOneToOne: false
+            referencedRelation: "tipos_propiedad"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       publicaciones: {
         Row: {
           aprobada: boolean | null
           categoria_id: number | null
           condicion: string | null
-          descripcion: string
+          descripcion: string | null
+          destacada: boolean | null
           estado_id: number | null
           fecha_creacion: string | null
           frecuencia_pago: string | null
@@ -143,15 +290,17 @@ export type Database = {
           municipio_id: number | null
           precio: number | null
           telefono: number | null
-          tipo_publicacion: string | null
+          tipo_publicacion: string
           titulo: string
-          user_id: string | null
+          updated_at: string | null
+          user_id: string
         }
         Insert: {
           aprobada?: boolean | null
           categoria_id?: number | null
           condicion?: string | null
-          descripcion: string
+          descripcion?: string | null
+          destacada?: boolean | null
           estado_id?: number | null
           fecha_creacion?: string | null
           frecuencia_pago?: string | null
@@ -160,15 +309,17 @@ export type Database = {
           municipio_id?: number | null
           precio?: number | null
           telefono?: number | null
-          tipo_publicacion?: string | null
+          tipo_publicacion: string
           titulo: string
-          user_id?: string | null
+          updated_at?: string | null
+          user_id: string
         }
         Update: {
           aprobada?: boolean | null
           categoria_id?: number | null
           condicion?: string | null
-          descripcion?: string
+          descripcion?: string | null
+          destacada?: boolean | null
           estado_id?: number | null
           fecha_creacion?: string | null
           frecuencia_pago?: string | null
@@ -177,9 +328,10 @@ export type Database = {
           municipio_id?: number | null
           precio?: number | null
           telefono?: number | null
-          tipo_publicacion?: string | null
+          tipo_publicacion?: string
           titulo?: string
-          user_id?: string | null
+          updated_at?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -203,64 +355,70 @@ export type Database = {
             referencedRelation: "municipios"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "publicaciones_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       roles: {
         Row: {
-          id: number
+          created_at: string | null
+          id: string
           nombre: string | null
-          rol: Database["public"]["Enums"]["rol"] | null
+          rol: string
           telefono: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
-          id?: number
+          created_at?: string | null
+          id?: string
           nombre?: string | null
-          rol?: Database["public"]["Enums"]["rol"] | null
+          rol?: string
           telefono?: string | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
-          id?: number
+          created_at?: string | null
+          id?: string
           nombre?: string | null
-          rol?: Database["public"]["Enums"]["rol"] | null
+          rol?: string
           telefono?: string | null
-          user_id?: string | null
+          user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "roles_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
+      }
+      tipos_propiedad: {
+        Row: {
+          created_at: string | null
+          descripcion: string | null
+          id: number
+          nombre: string
+        }
+        Insert: {
+          created_at?: string | null
+          descripcion?: string | null
+          id?: number
+          nombre: string
+        }
+        Update: {
+          created_at?: string | null
+          descripcion?: string | null
+          id?: number
+          nombre?: string
+        }
+        Relationships: []
       }
       users: {
         Row: {
-          email: string | null
+          created_at: string | null
           id: string
-          nombre: string | null
           telefono: string | null
         }
         Insert: {
-          email?: string | null
+          created_at?: string | null
           id: string
-          nombre?: string | null
           telefono?: string | null
         }
         Update: {
-          email?: string | null
+          created_at?: string | null
           id?: string
-          nombre?: string | null
           telefono?: string | null
         }
         Relationships: []
@@ -273,7 +431,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      rol: "admin" | "usuario"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -388,8 +546,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      rol: ["admin", "usuario"],
-    },
+    Enums: {},
   },
 } as const
