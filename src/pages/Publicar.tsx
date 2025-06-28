@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -320,7 +321,7 @@ const PublicarPage = () => {
   return (
     <div className="max-w-xl mx-auto mt-8 p-6 rounded shadow bg-white dark:bg-background transition-colors">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-bold">Publicar inmuebles
+        <h1 className="text-xl font-bold">Publicar inmuebles</h1>
         <span className="text-sm text-gray-600 dark:text-gray-300">
           {publicacionesCount}/{limite} publicaciones
         </span>
