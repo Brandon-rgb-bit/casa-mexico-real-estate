@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -59,40 +60,6 @@ const AuthPage = () => {
     };
   }, [navigate]);
 
-  // --- Helpers para actualizar cada tabla (pueden moverse a un archivo aparte si lo prefieres)
-  async function updateUserDetails(userId: string, nombre: string, telefono: string, email: string) {
-    const { error } = await supabase
-      .from("users")
-      .update({
-        nombre,
-        telefono,
-        email: email.trim(),
-      })
-      .eq("id", userId);
-    if (error) throw error;
-  }
-
-  async function updateLimiteEmail(userId: string, email: string) {
-    const { error } = await supabase
-      .from("limites")
-      .update({
-        email: email.trim(),
-      })
-      .eq("user_id", userId);
-    if (error) throw error;
-  }
-
-  async function updateRoleDetails(userId: string, nombre: string, telefono: string) {
-    const { error } = await supabase
-      .from("roles")
-      .update({
-        nombre,
-        telefono,
-      })
-      .eq("user_id", userId);
-    if (error) throw error;
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -130,7 +97,6 @@ const AuthPage = () => {
             data: {
               nombre: nombre.trim(),
               telefono: telefono.trim(),
-              email: email.trim(),
             },
           },
         });
