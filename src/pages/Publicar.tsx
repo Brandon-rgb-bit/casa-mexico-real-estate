@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -174,40 +173,28 @@ const PublicarPage = () => {
     return uploadedUrls;
   };
 
-  // Función para asegurar que el usuario existe en la tabla public.users
+  // Función simplificada para crear usuario si no existe
   const ensureUserExists = async (userId: string, telefono: string) => {
     try {
-      // Verificar si el usuario ya existe
-      const { data: existingUser } = await supabase
+      // Intentar insertar el usuario directamente
+      const { error } = await supabase
         .from("users")
-        .select("id, telefono")
-        .eq("id", userId)
-        .maybeSingle();
+        .upsert({ 
+          id: userId, 
+          telefono: telefono
+        }, {
+          onConflict: 'id'
+        });
 
-      if (!existingUser) {
-        // Si no existe, crearlo - solo con los campos que existen en la tabla
-        console.log("Creating user in public.users table:", userId);
-        const { error: userError } = await supabase
-          .from("users")
-          .insert({ 
-            id: userId, 
-            telefono: telefono
-          });
-        
-        if (userError) {
-          console.error("Error creating user:", userError);
-          throw userError;
-        }
-      } else if (existingUser.telefono !== telefono) {
-        // Actualizar teléfono si es diferente
-        await supabase
-          .from("users")
-          .update({ telefono })
-          .eq("id", userId);
+      if (error) {
+        console.error("Error upserting user:", error);
+        // No lanzar error, continuar con la publicación
+      } else {
+        console.log("Usuario creado/actualizado exitosamente");
       }
-    } catch (error: any) {
-      console.error("Error ensuring user exists:", error);
-      throw error;
+    } catch (error) {
+      console.error("Error en ensureUserExists:", error);
+      // No lanzar error, continuar con la publicación
     }
   };
 
@@ -256,6 +243,7 @@ const PublicarPage = () => {
 
     setLoading(true);
     try {
+      // Intentar crear/actualizar usuario pero no fallar si hay error
       await ensureUserExists(user.id, values.telefono.trim());
 
       // Subir imágenes a Supabase Storage si hay alguna
@@ -266,6 +254,7 @@ const PublicarPage = () => {
         console.log('URLs de imágenes subidas:', imageUrls);
       }
 
+      // Crear la publicación
       const { error } = await supabase.from("publicaciones").insert({
         titulo: values.titulo.trim(),
         descripcion: values.descripcion.trim(),
@@ -274,11 +263,11 @@ const PublicarPage = () => {
         estado_id: Number(values.estado_id),
         municipio_id: Number(values.municipio_id),
         categoria_id: Number(values.categoria_id),
-        imagenes: imageUrls, // Ahora son URLs de Supabase Storage
+        imagenes: imageUrls,
         user_id: user.id,
         frecuencia_pago: values.frecuencia_pago,
         condicion: values.condicion,
-        telefono: Number(values.telefono?.toString() || "0"), // Fix: Convert to number as expected by DB
+        telefono: Number(values.telefono?.toString() || "0"),
       });
       
       if (error) {
