@@ -108,15 +108,30 @@ const AdminPanel = () => {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Administración</h1>
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Usuarios</h2>
+    <div className="p-6 space-y-8">
+      <h1 className="text-3xl font-bold">Panel de Administración</h1>
+      
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-semibold">Gestión de Usuarios</h2>
+          <div className="text-sm text-gray-600">
+            Total: {usersData.length} usuarios
+          </div>
+        </div>
         <UserTable usersData={usersData} fetchUsers={fetchUsersData} />
       </section>
-      <section>
-        <h2 className="text-xl font-semibold mb-2">Publicaciones</h2>
-        <PublicacionesTable publicaciones={publicaciones} />
+      
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-semibold">Gestión de Publicaciones</h2>
+          <div className="text-sm text-gray-600">
+            Total: {publicaciones.length} publicaciones
+          </div>
+        </div>
+        <PublicacionesTable 
+          publicaciones={publicaciones} 
+          onPublicacionUpdated={fetchPublicaciones}
+        />
       </section>
     </div>
   );
