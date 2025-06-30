@@ -60,7 +60,7 @@ const MisPublicacionesPage = () => {
         .from("limites")
         .select("vigencia_hasta")
         .eq("user_id", user.id)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error("Error checking subscription:", error);
@@ -273,22 +273,6 @@ const MisPublicacionesPage = () => {
         <h1 className="text-2xl font-bold">Mis Publicaciones ({publicaciones.length})</h1>
         <Button onClick={() => navigate("/publicar")}>
           Nueva Publicación
-        </Button>
-      </div>
-
-      {/* Debug info - temporal para verificar */}
-      <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border">
-        <h3 className="font-semibold mb-2">Información de depuración:</h3>
-        <p><strong>Usuario ID:</strong> {user.id}</p>
-        <p><strong>Total publicaciones encontradas:</strong> {publicaciones.length}</p>
-        <p><strong>Estado de carga:</strong> {loading ? 'Cargando...' : 'Completado'}</p>
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={fetchMyPublicaciones}
-          className="mt-2"
-        >
-          Recargar publicaciones
         </Button>
       </div>
 

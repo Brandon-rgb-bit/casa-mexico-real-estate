@@ -1,22 +1,11 @@
 
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { format, addMonths } from "date-fns";
-import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/components/ui/use-toast";
 
 type UserData = {
   id: string;
@@ -33,119 +22,99 @@ type LimiteDialogProps = {
   fetchUsers: () => void;
 };
 
-const LimiteDialog: React.FC<LimiteDialogProps> = ({
-  user,
-  onClose,
-  fetchUsers,
-}) => {
-  const [limite, setLimite] = useState<number>(user.limite);
-  const [vigencia, setVigencia] = useState<Date | undefined>(
-    user.vigencia_hasta ? new Date(user.vigencia_hasta) : undefined
-  );
+const LimiteDialog: React.FC<LimiteDialogProps> = ({ user, onClose, fetchUsers }) => {
+  const [limite, setLimite] = useState(user.limite);
+  const [meses, setMeses] = useState(1);
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const [saving, setSaving] = useState(false);
 
   const handleSave = async () => {
-    setSaving(true);
-    let currentVigencia = vigencia;
-    if (!currentVigencia) currentVigencia = addMonths(new Date(), 1);
-
+    setLoading(true);
     try {
-      const { error: deleteError } = await supabase
+      // Calcular nueva fecha de vigencia
+      const nuevaVigencia = new Date();
+      nuevaVigencia.setMonth(nuevaVigencia.getMonth() + meses);
+
+      const { error } = await supabase
         .from("limites")
-        .delete()
+        .update({
+          limite: limite,
+          vigencia_hasta: nuevaVigencia.toISOString(),
+        })
         .eq("user_id", user.id);
-      if (deleteError) {
-        toast({
-          title: "Error al guardar el límite",
-          description: "No se pudo eliminar el límite anterior.",
-          variant: "destructive",
-        });
-        setSaving(false);
-        return;
-      }
-      const { error: insertError } = await supabase
-        .from("limites")
-        .insert({
-          user_id: user.id,
-          limite,
-          vigencia_hasta: currentVigencia.toISOString(),
-        });
-      if (insertError) {
-        toast({
-          title: "Error al guardar el límite",
-          description: "No se pudo guardar el nuevo límite.",
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Límite guardado",
-          description: "El límite se guardó correctamente.",
-        });
-        fetchUsers();
-        onClose();
-      }
-    } catch {
+
+      if (error) throw error;
+
       toast({
-        title: "Error inesperado",
-        description: "Ocurrió un error al guardar el límite.",
+        title: "Límite actualizado",
+        description: `Se actualizó el límite a ${limite} publicaciones válidas por ${meses} mes(es).`,
+      });
+
+      fetchUsers();
+      onClose();
+    } catch (error) {
+      console.error("Error updating limit:", error);
+      toast({
+        title: "Error",
+        description: "No se pudo actualizar el límite del usuario.",
         variant: "destructive",
       });
+    } finally {
+      setLoading(false);
     }
-    setSaving(false);
   };
 
   return (
-    <Dialog open onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={true} onOpenChange={onClose}>
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle>Asignar nuevo límite</DialogTitle>
-          <DialogDescription>
-            Puedes cambiar el límite de publicaciones y la fecha de vigencia.
-          </DialogDescription>
+          <DialogTitle>Editar Límite de Publicaciones</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-2">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right">Límite</Label>
+        <div className="space-y-4">
+          <div>
+            <Label htmlFor="user-info">Usuario</Label>
+            <div className="p-2 bg-gray-50 rounded">
+              <p className="font-medium">{user.nombre}</p>
+              <p className="text-sm text-gray-600">{user.telefono}</p>
+            </div>
+          </div>
+          
+          <div>
+            <Label htmlFor="limite">Límite de Publicaciones</Label>
             <Input
+              id="limite"
               type="number"
-              min={1}
               value={limite}
               onChange={(e) => setLimite(Number(e.target.value))}
-              className="col-span-3"
+              min={1}
+              max={100}
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right">Vigencia hasta</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-[200px] pl-3 text-left font-normal",
-                    !vigencia && "text-muted-foreground"
-                  )}
-                >
-                  {vigencia
-                    ? format(vigencia, "PPP")
-                    : <span>Elegir fecha</span>
-                  }
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="center" side="bottom">
-                <Calendar
-                  mode="single"
-                  selected={vigencia}
-                  onSelect={setVigencia}
-                  disabled={(date) => date < new Date()}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+
+          <div>
+            <Label htmlFor="meses">Vigencia (meses)</Label>
+            <Input
+              id="meses"
+              type="number"
+              value={meses}
+              onChange={(e) => setMeses(Number(e.target.value))}
+              min={1}
+              max={12}
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              La vigencia se extenderá {meses} mes(es) desde hoy
+            </p>
+          </div>
+
+          <div className="flex gap-2 justify-end">
+            <Button variant="outline" onClick={onClose} disabled={loading}>
+              Cancelar
+            </Button>
+            <Button onClick={handleSave} disabled={loading}>
+              {loading ? "Guardando..." : "Guardar Cambios"}
+            </Button>
           </div>
         </div>
-        <Button onClick={handleSave} disabled={saving}>Guardar</Button>
       </DialogContent>
     </Dialog>
   );

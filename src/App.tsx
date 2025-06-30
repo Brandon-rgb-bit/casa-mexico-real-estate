@@ -16,6 +16,7 @@ import { NavBar } from "@/components/NavBar";
 import { ThemeProvider } from "next-themes";
 import { useSupabaseSession } from "@/hooks/useSupabaseSession";
 import DestacadosPage from "@/pages/Destacados";
+import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 
 const queryClient = new QueryClient();
 
@@ -49,7 +50,14 @@ const App = () => {
               <Route path="/publicar" element={<PublicarPage />} />
               <Route path="/mis-publicaciones" element={<MisPublicacionesPage />} />
               <Route path="/destacados" element={<DestacadosPage />} />
-              <Route path="/admin" element={<AdminPanel />} />
+              <Route 
+                path="/admin" 
+                element={
+                  <ProtectedAdminRoute>
+                    <AdminPanel />
+                  </ProtectedAdminRoute>
+                } 
+              />
               <Route path="/comprobante" element={<ComprobantePage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
