@@ -18,7 +18,7 @@ export const NavBar = ({ user }: { user: any }) => {
   return (
     <nav className="w-full flex items-center justify-between py-2 px-4 border-b bg-white dark:bg-background transition-colors">
       <Link to="/" className="font-bold text-lg text-primary">
-        Maquinaria MX
+        Inmuebles MX
       </Link>
       
       <div className="hidden md:flex items-center gap-4">

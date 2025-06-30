@@ -185,17 +185,21 @@ const PublicarPage = () => {
         .maybeSingle();
 
       if (!existingUser) {
-        // Si no existe, crearlo
+        // Si no existe, crearlo - solo con los campos que existen en la tabla
         console.log("Creating user in public.users table:", userId);
         const { error: userError } = await supabase
           .from("users")
-          .insert({ id: userId, telefono });
+          .insert({ 
+            id: userId, 
+            telefono: telefono
+          });
         
         if (userError) {
           console.error("Error creating user:", userError);
           throw userError;
         }
       } else if (existingUser.telefono !== telefono) {
+        // Actualizar teléfono si es diferente
         await supabase
           .from("users")
           .update({ telefono })
